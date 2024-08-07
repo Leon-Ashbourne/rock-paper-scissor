@@ -8,7 +8,7 @@
 }
 
 .container div {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .label {
@@ -63,4 +63,22 @@ button {
 
 .stop-btn {
     background-color: red;
+}
+
+.player-choice {
+    font-weight: 900;
+    font-size: 36px;
+    padding: 32px;
+}
+
+.options {
+    font-weight: 500;
+    font-size: 42px;
+    margin: 32px;
+}
+
+.round-score {
+    text-align: center;
+    max-width: 100%;
+    box-sizing: border-box;
 }

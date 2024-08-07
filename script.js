@@ -1,4 +1,3 @@
-const choiceList = document.querySelectorAll('.btn');
 const resultShow = document.querySelector('.result');
 const continueBtn = document.querySelector('.continue-btn');
 const gameInfo = document.querySelector('game-info');
@@ -10,39 +9,75 @@ const resultInfo = document.querySelector('.result-info');
 let gameRound = 0;
 let humanScore = 0;
 let computerScore= 0;
-const startBtn = document.querySelector('.play');
+
+const startBtn = document.querySelector('.start-game');
+const stopBtn = document.querySelector('.stop-btn');
 
 
 
 function getComputerChoice(){
-    let choice = Math.float(Math.random()*3) + 1;
+    let choice = Math.floor(Math.random()*3) + 1;
+
     switch (choice){
         case 1:
-            return 'rock';
+            return 'PAPER';
         
         case 2:
-            return 'paper';
+            return 'ROCK';
 
         case 3: 
-            return 'scissor';
+            return 'SCISSOR';
     }
 }
 
-function getHumanChoice(){
-    for(let i =0; i< choiceList.length; i++){
-        choiceList[i].addEventListener('click', ()=>{
-            return userChoice();
-        }) 
+
+function playRound(){
+
+    let humanChoice;
+    let choiceUpperCase;
+    let  computerChoice;
+    let result = 0;
+
+    for(let i =0; i<5; i++){
+         humanChoice = prompt(`Choose one of these options: \n
+            ROCK  PAPER  SCISSOR  `
+       );
+       if( humanChoice === null){
+        alert("you chose to cancel the game!");
+        computerScore = 0;
+        humanScore= 0;
+        gameRound=0;
+        }
+
+       choiceUpperCase = humanChoice.toUpperCase();
+
+        if(choiceUpperCase !== 'ROCK' && 
+            choiceUpperCase !== 'PAPER' &&
+            choiceUpperCase !== 'SCISSOR'
+        ){
+            alert(`You entered wrong Input: try again within these three options \n 
+                rock , paper, scissor .`);
+            i--;
+        }else {
+            computerChoice = getComputerChoice();
+            result = comparator (computerChoice, choiceUpperCase);
+            if(result === 1){
+                computerScore++;
+            }else if(result === 2){
+                humanScore++;
+            }
+        gameRound++;
+
+        }
+            
+
     }
-}
-function userChoice(event){
-    return event.target.value;
+    return ;
+
 }
 
-function comaprator(_computerChoice, _humanChoice){
 
-    _computerChoice = topUpperString(_computerChoice);
-    _humanChoice = topUpperString(_humanChoice);
+function comparator(_computerChoice, _humanChoice){
 
     if( (_computerChoice==='ROCK' && _humanChoice==='PAPER') || 
     (_computerChoice === 'PAPER' && _humanChoice === 'SCISSOR') || 
@@ -53,78 +88,51 @@ function comaprator(_computerChoice, _humanChoice){
     (_humanChoice ==='SCISSOR' &&  _computerChoice=== 'ROCK')){
         return 1;
     }
+
+
 }
 
 
-startBtn.addEventListener('onclick', ()=> {
-    startBtn.style.backgroundColor = green;
+startBtn.addEventListener('click', ()=> {
+    startBtn.style.backgroundColor = 'green';
     startGame();
 });
 
-function startGame(){
-    playRound();
+
+function displayScore(){
+    humanScoreShow.textContent = `Player Score: ${humanScore}`;
+    computerScoreShow.textContent = `Computer Score: ${computerScore}`;
 }
 
-function playRound(){
-    round++;
-    let computerChoice = getComputerChoice();
-    let humanChoice = getHumanChoice();
-    let result = comparator(computerChoice, humanChoice);
-    if(round<=5){
-        if(result===1){
-            computerScore++;
-            computerScoreShow.textContent = "Computer Score: " + computerScore;
-            resultInfo.textContent = "you lose. computer won this round.";
+function startGame(){
+    displayScore();
+    playRound();
 
-            continueBtn.addEventListener('onclick', playRound())
-
-            stopBtn.addEventListener('onclick', ()=>{
-                prompt("Starting a new game!");
-                computerScore = 0;
-                humanScore= 0;
-                round=0;
-                return;
-            });
-
-        }else if(result==2){
-            humanScore++;
-            humanScoreShow.textContent = "your Score: "+ humanScore;
-            resultInfo.textContent = "You won this round and computer lose to you in this round!";
-
-            continueBtn.addEventListener('onclick', playRound())
-
-            stopBtn.addEventListener('onclick', ()=>{
-                prompt("Starting a new game!");
-                computerScore = 0;
-                humanScore= 0;
-                round=0;
-                return;
-            });
+    displayScore();
+    if(humanScore>computerScore){
+        if(gameRound === 5 && computerScore > humanScore){
+            round=0;
+            resultInfo.textContent = `Unfortunately, You Lose this Game! Wanna try another round ? \n
+                I'm always ready for the challenge. \n
+                press continue to go fo ranother round.`;
+        }else if (gameRound === 5 && humanScore > computerScore){
+            round=0;
+            resultInfo.textContent = `Congrats, YOU won the game! \n
+                Wanna try another round ? \n
+            I'm always ready for the challenge. \n
+                press continue for another round..`;
+        }else if(gameRound === 5 && computerScore === humanScore){
+            resultInfo.textcontent = `What a Bummer, Both of you ended up with a Draw!`;
         }else {
-            resultInfo.textContent = "What a bummer . it's a draw -_-";
-
-            stopBtn.addEventListener('onclick', ()=>{
-                prompt("Starting a new game!")
-                computerScore = 0;
-                humanScore = 0;
-                round=0;
-                return;
-            });
+            startBtn.style.backgroundColor = 'white';
+            return;
         }
     }
-    if(round==5 && computerScore>humanScore){
-        round=0;
-        resultInfo.textContent = `Unfortunately, You Lose this Game! Wanna try another round ? \n
-         I'm always ready for the challenge. \n
-          press start game for new game`;
-    }else if (round===5 && humanScore>computerScore){
-        round=0;
-        resultInfo.textContent = `Congrats, YOU won the game! \n
-         Wanna try another round ? \n
-        I'm always ready for the challenge. \n
-         press start game for new game`;
-    }else if(round===5 && computerScore==humanScore){
-        resultInfo.textcontent = `What a Bummer, Both of you ended up with a Draw!`;
-    }
 }
+
+
+continueBtn.addEventListener('onclick', ()=> {
+    startBtn.style.backgroundColor = 'green';
+    startGame();
+})
 
