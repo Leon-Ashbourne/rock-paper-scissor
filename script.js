@@ -1,7 +1,8 @@
 const resultShow = document.querySelector('.result');
 const continueBtn = document.querySelector('.continue-btn');
-const gameInfo = document.querySelector('game-info');
-const shortNote = document.querySelector('.shortNote');
+const resetBtn = document.querySelector('.reset-btn');
+
+const displayGameSituation = document.querySelector('.player-choice');
 const computerScoreShow = document.getElementById('computer-score')
 const humanScoreShow = document.getElementById('human-score')
 const resultInfo = document.querySelector('.result-info');
@@ -11,7 +12,6 @@ let humanScore = 0;
 let computerScore= 0;
 
 const startBtn = document.querySelector('.start-game');
-const stopBtn = document.querySelector('.stop-btn');
 
 
 
@@ -102,37 +102,53 @@ startBtn.addEventListener('click', ()=> {
 function displayScore(){
     humanScoreShow.textContent = `Player Score: ${humanScore}`;
     computerScoreShow.textContent = `Computer Score: ${computerScore}`;
+    displayGameSituation.textContent = "Match completed, results are out!";
 }
 
+function resetAll(){
+    startBtn.style.backgroundColor = 'white';
+    humanScore = 0;
+    computerScore = 0;
+    displayScore();
+    gameRound = 0;
+    displayGameSituation.textContent = "Waiting For the Winner to be decided" ;
+    resultInfo.textContent = "Who won this game?" ;
+}
 function startGame(){
     displayScore();
     playRound();
 
     displayScore();
-    if(humanScore>computerScore){
         if(gameRound === 5 && computerScore > humanScore){
-            round=0;
-            resultInfo.textContent = `Unfortunately, You Lose this Game! Wanna try another round ? \n
+            resultInfo.textContent = `Unfortunately, You Lose this Match! Wanna try another round ? \n
                 I'm always ready for the challenge. \n
                 press continue to go fo ranother round.`;
+
         }else if (gameRound === 5 && humanScore > computerScore){
-            round=0;
             resultInfo.textContent = `Congrats, YOU won the game! \n
                 Wanna try another round ? \n
             I'm always ready for the challenge. \n
                 press continue for another round..`;
-        }else if(gameRound === 5 && computerScore === humanScore){
-            resultInfo.textcontent = `What a Bummer, Both of you ended up with a Draw!`;
+
+        }else if(gameRound ===5 && computerScore === humanScore){
+            resultInfo.textContent = "What a Bummer, Both of you ended up with a Draw!";
+
         }else {
-            startBtn.style.backgroundColor = 'white';
+            resetAll();
             return;
         }
-    }
+    startBtn.style.backgroudColor= "white";
 }
 
 
-continueBtn.addEventListener('onclick', ()=> {
+continueBtn.addEventListener('click', ()=> {
+    resetAll();
     startBtn.style.backgroundColor = 'green';
     startGame();
+})
+
+resetBtn.addEventListener('click', ()=> {
+    resetAll();
+    startBtn.style.backgroundColor = 'white';
 })
 

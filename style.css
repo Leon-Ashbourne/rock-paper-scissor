@@ -51,8 +51,10 @@ button {
     font-size: 28px;
 }
 
-
-.continue-btn, .stop-btn {
+.button {
+    gap: 30px;
+}
+.continue-btn, .reset-btn {
     margin-left: 25px;
     background-color: green;
     color: white;
@@ -61,7 +63,7 @@ button {
     font-size: 28px;
 }
 
-.stop-btn {
+.reset-btn {
     background-color: red;
 }
 
