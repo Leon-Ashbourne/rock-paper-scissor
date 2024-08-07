@@ -1,0 +1,66 @@
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container div {
+    margin-bottom: 30px;
+}
+
+.label {
+    margin-top: 30px;
+    font-size: 52px;
+    color: black;
+    text-align: center;
+    font-weight: 700;
+}
+.shortNote {
+    font-size: 36px;
+    text-align: center;
+}
+
+.rock-paper-scissor {
+    display: flex;
+    gap: 20px;
+    max-width: 75%;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+
+button {
+    padding: 16px 24px;
+    border: 3px solid blue;
+    background-color: black;
+    color: white;
+    border-radius: 25px;
+    font-size: 36px;
+}
+.start-game {
+    background-color: white;
+    color: black;
+    border: 3px solid black;
+}
+
+.round-score {
+    align-items: center;
+    font-size: 28px;
+}
+
+
+.continue-btn, .stop-btn {
+    margin-left: 25px;
+    background-color: green;
+    color: white;
+    padding: 16px 32px;
+    font-weight: 900;
+    font-size: 28px;
+}
+
+.stop-btn {
+    background-color: red;
+}
