@@ -5,4 +5,4 @@ the game will start by sending the human choice to the javascript file which in 
 for every round it will update the score of the individual's and the user can either continue or stop the game in the middle by choosing the option that was displayed as well.
 
 
-after thinking much, I decided to make it simple ratherr than too much GUI. So i changed to a basic rock-paper-scissor instead where the input taken from prompt message from the user.
+after thinking much, I decided to make it simple rather than adding too much GUI. So i changed it to a basic rock-paper-scissor instead where the input taken through prompt message from the user and game continues..
