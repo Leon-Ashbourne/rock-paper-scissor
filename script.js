@@ -1,13 +1,16 @@
 const resultShow = document.querySelector('.result');
-const continueBtn = document.querySelector('.continue-btn');
+// const continueBtn = document.querySelector('.continue-btn');
 const resetBtn = document.querySelector('.reset-btn');
 
 const displayGameSituation = document.querySelector('.player-choice');
+
 const computerScoreShow = document.getElementById('computer-score')
 const humanScoreShow = document.getElementById('human-score')
 const resultInfo = document.querySelector('.result-info');
 
-let gameRound = 0;
+const shortNote = document.querySelector(' .computer-choice');
+const humanDisplay = document.querySelector('.human-choice')
+
 let humanScore = 0;
 let computerScore= 0;
 
@@ -30,51 +33,62 @@ function getComputerChoice(){
     }
 }
 
+const selectedBtn = document.querySelector('.rock-paper-scissor');
+selectedBtn.addEventListener('mousedown', (event)=>{
+    getHumanChoice(event.target);
+})
+selectedBtn.addEventListener('mouseup', (event)=>{
+    if(event.target.className === 'rock-paper-scissor') {
+        return;
+    }
+    event.target.style.backgroundColor = "black";
+    let humanSt = event.target.value;
+    humanDisplay.textContent = `Your Choice: ${humanSt}`;
+})
 
-function playRound(){
 
-    let humanChoice;
+function getHumanChoice(target){
+    if(target.className === 'rock-paper-scissor') {
+        return;
+    }
+    target.style.backgroundColor = "green";
+    playRound(target.value);
+    
+}
+
+function playRound(humanChoice){
+
+
     let choiceUpperCase;
     let  computerChoice;
     let result = 0;
 
-    for(let i =0; i<5; i++){
-         humanChoice = prompt(`Choose one of these options: \n
-            ROCK  PAPER  SCISSOR  `
-       );
-       if( humanChoice === null){
-        alert("you chose to cancel the game!");
-        computerScore = 0;
-        humanScore= 0;
-        gameRound=0;
-        }
+    choiceUpperCase = humanChoice.toUpperCase();
+    
+    computerChoice = getComputerChoice();
+    shortNote.textContent = `Computer Choice: ${computerChoice}`;
 
-       choiceUpperCase = humanChoice.toUpperCase();
+    result = comparator (computerChoice, choiceUpperCase);
 
-        if(choiceUpperCase !== 'ROCK' && 
-            choiceUpperCase !== 'PAPER' &&
-            choiceUpperCase !== 'SCISSOR'
-        ){
-            alert(`You entered wrong Input: try again within these three options \n 
-                rock , paper, scissor .`);
-            i--;
-        }else {
-            computerChoice = getComputerChoice();
-            result = comparator (computerChoice, choiceUpperCase);
-            if(result === 1){
-                computerScore++;
-            }else if(result === 2){
-                humanScore++;
-            }
-        gameRound++;
-
-        }
-            
-
+    if(result === 1){
+        computerScore++;
+        displayScore();
+        resultInfo.textContent =  "HAHAHAAA, You L-O-S-E. I won this round.";
+    }else if(result === 2){
+        humanScore++;
+        displayScore();
+        resultInfo.textContent = "You won this round. What a joke...";
+    }else {
+        resultInfo.textContent = "think you can match my energy ?" ;
     }
-    return ;
-
+    
+    if(humanScore === 5 || computerScore === 5){
+        startBtn.style.backgroundColor = "white";
+        winner();
+    }
 }
+        
+
 
 
 function comparator(_computerChoice, _humanChoice){
@@ -94,15 +108,14 @@ function comparator(_computerChoice, _humanChoice){
 
 
 startBtn.addEventListener('click', ()=> {
+    resetAll();
     startBtn.style.backgroundColor = 'green';
-    startGame();
 });
 
 
 function displayScore(){
     humanScoreShow.textContent = `Player Score: ${humanScore}`;
     computerScoreShow.textContent = `Computer Score: ${computerScore}`;
-    displayGameSituation.textContent = "Match completed, results are out!";
 }
 
 function resetAll(){
@@ -110,42 +123,35 @@ function resetAll(){
     humanScore = 0;
     computerScore = 0;
     displayScore();
+    humanDisplay.textContent = `Your choice out of this three?`;
     gameRound = 0;
-    displayGameSituation.textContent = "Waiting For the Winner to be decided" ;
-    resultInfo.textContent = "Who won this game?" ;
+    displayGameSituation.textContent = "Waiting For the Winner to be decided..." ;
+    resultInfo.textContent = "Let's see.." ;
 }
-function startGame(){
-    displayScore();
-    playRound();
+function winner(){
 
     displayScore();
-        if(gameRound === 5 && computerScore > humanScore){
-            resultInfo.textContent = `Unfortunately, You Lose this Match! Wanna try another round ? \n
+        if( computerScore === 5){
+            displayGameSituation.textContent = `Unfortunately, You Lose this Match! Wanna try another round ? \n
                 I'm always ready for the challenge. \n
-                press continue to go fo ranother round.`;
+                press start-Game for another round.`;
 
-        }else if (gameRound === 5 && humanScore > computerScore){
-            resultInfo.textContent = `Congrats, YOU won the game! \n
+        }else if(humanScore === 5){
+            displayGameSituation.textContent = `Congrats, YOU won the game! \n
                 Wanna try another round ? \n
             I'm always ready for the challenge. \n
-                press continue for another round..`;
+                press start-Game for another round..`;
 
-        }else if(gameRound ===5 && computerScore === humanScore){
-            resultInfo.textContent = "What a Bummer, Both of you ended up with a Draw!";
-
-        }else {
-            resetAll();
-            return;
         }
     startBtn.style.backgroudColor= "white";
+
 }
 
 
-continueBtn.addEventListener('click', ()=> {
-    resetAll();
-    startBtn.style.backgroundColor = 'green';
-    startGame();
-})
+
+// continueBtn.addEventListener('click', ()=> {
+//     startBtn.style.backgroundColor = 'green';
+// })
 
 resetBtn.addEventListener('click', ()=> {
     resetAll();
